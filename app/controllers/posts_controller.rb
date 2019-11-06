@@ -7,6 +7,13 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
+  def create
+    csv_path = File.join Rails.root, 'db', 'pokemon.csv'
+    PostAddWorker.perform_async('csv_path')
+    flash[:notice] = "Pokemons getting added to db"
+    redirect_to posts_path
+  end
+
   # GET /posts/1
   # GET /posts/1.json
   def show
@@ -23,19 +30,19 @@ class PostsController < ApplicationController
 
   # POST /posts
   # POST /posts.json
-  def create
-    @post = Post.new(post_params)
+  # def create
+  #   @post = Post.new(post_params)
 
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
-      else
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  #   respond_to do |format|
+  #     if @post.save
+  #       format.html { redirect_to @post, notice: 'Post was successfully created.' }
+  #       format.json { render :show, status: :created, location: @post }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @post.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
@@ -53,13 +60,19 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1
   # DELETE /posts/1.json
+  # def destroy
+  #   @post.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
+
   def destroy
-    @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+    PostRemoveWorker.perform_async
+    flash[:notice] = "posts are getting removed from the database."
+    redirect_to pokemons_path
+  end 
 
   private
     # Use callbacks to share common setup or constraints between actions.
