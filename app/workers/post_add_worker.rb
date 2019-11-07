@@ -11,15 +11,10 @@ class PostAddWorker < PostWorker
     data = JSON.parse(response)
   end 
 
-  def process_request(begin_date, end_date)
-    result_hash = make_request(begin_date, end_date)
-    result_hash["result"]["event"].each do |event|
-      newCard = Card.new(date: event["date"].split("/").join(''), event: event["description"])
-      if newCard.valid? 
-        newCard.save()
-      else
-        puts "card already exists"
-      end 
+  def process_request
+    result_hash = make_request
+    result_hash["properties"].each do |property|
+      puts property
     end 
   end 
 end
