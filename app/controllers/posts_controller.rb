@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    PostAddWorker.perform_async('csv_path')
+    # PostAddWorker.perform_async
     flash[:notice] = "Pokemons getting added to db"
     redirect_to posts_path
   end
