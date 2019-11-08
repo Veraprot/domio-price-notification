@@ -20,6 +20,12 @@ class PropertyAddWorker < PropertyWorker
     result_hash = make_request
     result_hash["properties"].each do |property|
       byebug
+      property = Property.new(date: event["date"].split("/").join(''), event: event["description"])
+      if newCard.valid? 
+        newCard.save()
+      else
+        puts "card already exists"
+      end 
     end 
   end 
 end
