@@ -18,14 +18,18 @@ class PropertyAddWorker < PropertyWorker
 
   def process_request
     result_hash = make_request
+    property_type_cache = {}
     result_hash["properties"].each do |property|
       byebug
-      property = Property.new(date: event["date"].split("/").join(''), event: event["description"])
-      if newCard.valid? 
-        newCard.save()
-      else
-        puts "card already exists"
-      end 
+      if(!property_type_cash.property["type"]) {
+        property = property.find(name: property["type"])
+      } else {
+        property_type_cache[property["type"]] = true
+        property_type = PropertyType.new(name: property["type"])
+      }
     end 
+  end 
+
+  def createPropertyType 
   end 
 end
