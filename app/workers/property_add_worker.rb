@@ -26,6 +26,7 @@ class PropertyAddWorker < PropertyWorker
       } else {
         property_type_cache[property["type"]] = true
         property_type = PropertyType.new(name: property["type"])
+        property_type.children.build(:name => "123")
       }
     end 
   end 
