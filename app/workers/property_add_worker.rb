@@ -18,6 +18,10 @@ class PropertyAddWorker < PropertyWorker
 
   def process_request
     result_hash = make_request
+    # build hash of all apartment type values 
+    # for each apartment type build children(properties) instances 
+    # property_type.children.build(:key => "value")
+    # send multiline insert to db
     property_type_cache = {}
     result_hash["properties"].each do |property|
       byebug
