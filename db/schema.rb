@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 2019_11_08_211045) do
 
   create_table "properties", force: :cascade do |t|
     t.integer "property_type_id"
+    t.string "uri_id"
     t.decimal "base_price", precision: 10, scale: 2
     t.index ["property_type_id"], name: "index_properties_on_property_type_id"
   end

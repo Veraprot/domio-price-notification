@@ -2,7 +2,7 @@ require 'sidekiq-scheduler'
 
 class PropertyAddWorker < PropertyWorker
   def perform
-    puts "hello world"
+    process_request
   end
 
   def make_request
@@ -10,11 +10,16 @@ class PropertyAddWorker < PropertyWorker
     data = JSON.parse(response)
   end 
 
+  {
+    "basePrice"=>6000.06, 
+   "dynamicDisplayPrice"=>6150.06, "id"=>"410e409f-ac02-4afb-bbbe-8b7ff708647f",
+    "type"=>"home"
+    }
+
   def process_request
     result_hash = make_request
-    byebug
     result_hash["properties"].each do |property|
-      puts property
+      byebug
     end 
   end 
 end
