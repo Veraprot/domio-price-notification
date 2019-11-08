@@ -1,34 +1,34 @@
-class PostsController < ApplicationController
+class PropertiesController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
-  # GET /posts
-  # GET /posts.json
+  # GET /properties
+  # GET /properties.json
   def index
-    @posts = Post.all
+    @properties = Property.all
   end
 
   def create
     # PostAddWorker.perform_async
     flash[:notice] = "Pokemons getting added to db"
-    redirect_to posts_path
+    redirect_to properties_path
   end
 
-  # GET /posts/1
-  # GET /posts/1.json
+  # GET /properties/1
+  # GET /properties/1.json
   def show
   end
 
-  # GET /posts/new
+  # GET /properties/new
   def new
     @post = Post.new
   end
 
-  # GET /posts/1/edit
+  # GET /properties/1/edit
   def edit
   end
 
-  # POST /posts
-  # POST /posts.json
+  # POST /properties
+  # POST /properties.json
   # def create
   #   @post = Post.new(post_params)
 
@@ -43,8 +43,8 @@ class PostsController < ApplicationController
   #   end
   # end
 
-  # PATCH/PUT /posts/1
-  # PATCH/PUT /posts/1.json
+  # PATCH/PUT /properties/1
+  # PATCH/PUT /properties/1.json
   def update
     respond_to do |format|
       if @post.update(post_params)
@@ -57,19 +57,19 @@ class PostsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
+  # DELETE /properties/1
+  # DELETE /properties/1.json
   # def destroy
   #   @post.destroy
   #   respond_to do |format|
-  #     format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+  #     format.html { redirect_to properties_url, notice: 'Post was successfully destroyed.' }
   #     format.json { head :no_content }
   #   end
   # end
 
   def destroy
     PostRemoveWorker.perform_async
-    flash[:notice] = "posts are getting removed from the database."
+    flash[:notice] = "properties are getting removed from the database."
     redirect_to pokemons_path
   end 
 
