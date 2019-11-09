@@ -1,4 +1,4 @@
-# :schedule:
-#   hello_world:
-#     every: 1s  # Runs once per second
-#     class: PropertyAddWorker
+:schedule:
+  hello_world:
+    every: 1s  # Runs once per second
+    class: PropertyAddWorker
