@@ -8,7 +8,6 @@ class PropertiesController < ApplicationController
   end
 
   def create
-    # PostAddWorker.perform_async
     flash[:notice] = "Pokemons getting added to db"
     redirect_to properties_path
   end
@@ -20,7 +19,8 @@ class PropertiesController < ApplicationController
 
   # GET /properties/new
   def new
-    @post = Post.new
+    PropertyAddWorker.perform_async
+    # @property = Property.new
   end
 
   # GET /properties/1/edit

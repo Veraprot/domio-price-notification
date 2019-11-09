@@ -18,20 +18,13 @@ class PropertyAddWorker < PropertyWorker
 
   def process_request
     result_hash = make_request
-    # build hash of all apartment type values 
-    # for each apartment type build children(properties) instances 
-    # property_type.children.build(:key => "value")
-    # send multiline insert to db
-    property_type_cache = {}
     result_hash["properties"].each do |property|
-      byebug
-      if(!property_type_cash.property["type"]) {
-        property = property.find(name: property["type"])
-      } else {
-        property_type_cache[property["type"]] = true
-        property_type = PropertyType.new(name: property["type"])
-        property_type.children.build(:name => "123")
-      }
+      property_type = PropertyType.where(name: property["type"]).first_or_create
+      
+      prop = Property.where(uri_id: property["id"]).first_or_create do |p|
+        p.base_price = property["base_price"], p.property_type_id = property_type.id
+      end
+      property_record = PropertyRecord.create(property_id: prop.id, dynamic_display_price: property["dynamicDisplayPrice"])
     end 
   end 
 
