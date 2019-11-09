@@ -10,21 +10,20 @@ class PropertyAddWorker < PropertyWorker
     data = JSON.parse(response)
   end 
 
-  {
-    "basePrice"=>6000.06, 
-   "dynamicDisplayPrice"=>6150.06, "id"=>"410e409f-ac02-4afb-bbbe-8b7ff708647f",
-    "type"=>"home"
-    }
-
   def process_request
     result_hash = make_request
     result_hash["properties"].each do |property|
       property_type = PropertyType.where(name: property["type"]).first_or_create
       
       prop = Property.where(uri_id: property["id"]).first_or_create do |p|
-        p.base_price = property["base_price"], p.property_type_id = property_type.id
+        p.base_price = property["base_price"], 
+        p.property_type_id = property_type.id
       end
-      property_record = PropertyRecord.create(property_id: prop.id, dynamic_display_price: property["dynamicDisplayPrice"])
+      
+      property_record = PropertyRecord.create(
+        property_id: prop.id, 
+        dynamic_display_price: property["dynamicDisplayPrice"]
+      )
     end 
   end 
 
